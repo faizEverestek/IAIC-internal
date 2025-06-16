@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CucumberTestNG
+Bundle-SymbolicName: CucumberTestNG
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Automatic-Module-Name: CucumberTestNG
+Export-Package: src.main.java.com.petportal.definitions,
+ src.main.java.com.petportal.features,
+ src.main.java.com.petportal.runner

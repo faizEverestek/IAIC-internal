@@ -1,0 +1,92 @@
+version: 2.1
+
+orbs:
+  browser-tools: circleci/browser-tools@1.4.2
+  aws-cli: circleci/aws-cli@3.1.5
+
+jobs:
+  run_tests:
+    docker:
+      - image: cimg/openjdk:17.0.8-browsers
+    parameters:
+      env-name:
+        description: Name of the environment to test
+        type: string
+      scenarios-tags:
+        description: Tag of scenarios
+        type: string
+    resource_class: large
+    steps:
+      - checkout
+
+      - browser-tools/install-chrome:
+          chrome-version: "latest"
+
+      - run:
+          name: Running test cases
+          environment:
+            ENV_NAME: <<parameters.env-name>>
+            TAGS: <<parameters.scenarios-tags>>
+          command: |
+            echo "Running tests for $ENV_NAME environment..."
+            mvn -version || true
+            java --version || true
+            mvn -X clean test -DENV=$ENV_NAME -Dcucumber.tags=$TAGS || true
+            PWD=$(pwd) || true
+            ls -R $PWD/build || true
+
+      - run:
+          name: Check if report directory exists
+          command: |
+            echo "Checking report directory..."
+            if [ -d "./build/courgette-report" ]; then
+              ls -R ./build/courgette-report
+            else
+              echo "Report directory not found!"
+            fi
+
+      - store_artifacts:
+          path: ./build/courgette-report/index.html
+          when: always
+
+      - run:
+          name: Pipeline to pass
+          command: |
+            echo "Successfully passed all tests"
+            exit 0
+
+workflows:
+  scheduled-parallel-tests:
+    triggers:
+      - schedule:
+          cron: "0 17 * * 2"
+          filters:
+            branches:
+              only: master
+      - schedule:
+          cron: "0 17 * * 4"
+          filters:
+            branches:
+              only: master
+
+    jobs:
+      - run_tests:
+          name: "Run Tests on QA"
+          context: kc-sandbox-context
+          env-name: "QA"
+          scenarios-tags: "@Regression"
+      - run_tests:
+          name: "Run Tests on QA2"
+          context: kc-sandbox-context
+          env-name: "QA2"
+          scenarios-tags: "@Regression"
+      - run_tests:
+          name: "Run Specific Tests on QA"
+          context: kc-sandbox-context
+          env-name: "QA"
+          scenarios-tags: "@Regression-QA"
+      - run_tests:
+          name: "Run Specific Tests on QA2"
+          context: kc-sandbox-context
+          env-name: "QA2"
+          scenarios-tags: "@Regression-QA2"

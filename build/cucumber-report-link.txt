@@ -1,0 +1,7 @@
+
+─────────────────────────────────────────────────────────────────────────
+Report published at: 2025-02-07T04:57:28.407493200Z
+
+Courgette published your Cucumber Report to:
+https://reports.cucumber.io/reports/746c3dae-c40a-4598-9ec9-f1685aa4d98b
+─────────────────────────────────────────────────────────────────────────
