@@ -109,6 +109,8 @@ public class BillingPage implements AbstractPage {
     @FindBy(xpath = "(//button[@type='button'])[1]") private WebElement sendVerificationCode;
     @FindBy(xpath = "//div[text()='OK']") private WebElement ok;
     @FindBy(xpath = "//div[text()='New York']") private WebElement newYork;
+    @FindBy(xpath = "//div[@aria-label='Credit Available']//div[contains(text(), 'Credit Available')]") private WebElement creditAvailableLabel;
+    @FindBy(xpath = "//div[@aria-label='Credit Available']//div[@data-for='dg-tooltip']") private WebElement creditAvailableValue;
 
     public BillingPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -169,6 +171,8 @@ public class BillingPage implements AbstractPage {
         WEB_ELEMENT_MAPPING.put("Send Verification Code", sendVerificationCode);
         WEB_ELEMENT_MAPPING.put("OK", ok);
         WEB_ELEMENT_MAPPING.put("New York", newYork);
+        WEB_ELEMENT_MAPPING.put("CREDIT AVAILABLE LABEL", creditAvailableLabel);
+        WEB_ELEMENT_MAPPING.put("CREDIT AVAILABLE VALUE", creditAvailableValue);
 
     }
 

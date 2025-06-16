@@ -1218,4 +1218,30 @@ public class WebSteps {
         element2.sendKeys((properties.getProperty("SSO_PASSWORD")));
         element3.click();
     }
+
+    /**
+     * Verifies that UI elements contain the expected text values defined in the provided DataTable.
+     *
+     * <p>The DataTable must have two columns:
+     * <ul>
+     *   <li><b>NAME</b> – element identifier</li>
+     *   <li><b>VALUE</b> – expected text</li>
+     * </ul>
+     *
+     * @param dataTable a table mapping element names to their expected text values
+     * @throws AssertionError if any element's actual text does not match the expected value
+     */
+    @Then("following elements with respective text values are present:")
+    public void verifyTextContentAtMultipleElements(DataTable dataTable) {
+        List<Map<String, String>> expectedMap = dataTable.asMaps();
+        for (Map<String, String> expectedRow : expectedMap) {
+            WebElement textField = currentPage.elements().get(expectedRow.get("NAME"));
+            testUtils.waitUntilElementToBeVisible(textField);
+            testUtils.scrollUptoElementDisplay(textField);
+            String actualValue = textField.getText().replaceAll("\\s+", " ").trim();
+            String expectedValue = expectedRow.get("VALUE");
+            Assert.assertEquals(actualValue, expectedValue,
+                    "The value of \"" + expectedRow.get("NAME") + "\" did not match.");
+        }
+    }
 }

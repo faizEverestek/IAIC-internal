@@ -374,6 +374,16 @@ Feature: Billing Dashboard Changes
     And "Select Payment Method" is clicked
     And "1000" is entered in "Add Credit Amount"
     Then "Done Button" is clicked
+    And web browser is landed on the "Billing Page"
+    And wait for 2 seconds "for elements to be visible"
+    And "Billing Dashboard" is clicked
+    And Verify "Filter Button" is clicked
+    And "Search Group Name" is search for group
+    And wait for 5 seconds "for elements to be visible"
+    Then following elements with respective text values are present:
+      | NAME                   | VALUE            |
+      | CREDIT AVAILABLE LABEL | CREDIT AVAILABLE |
+      | CREDIT AVAILABLE VALUE | 1000             |
 
   #@Regression 
   Scenario: Verify that when group credit is utilised from remittance file it is reflected in billing dashboard
