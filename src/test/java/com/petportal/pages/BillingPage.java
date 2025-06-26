@@ -89,7 +89,7 @@ public class BillingPage implements AbstractPage {
     @FindBy(xpath = "//a[@aria-label='View Template Files']") private WebElement viewTemplateFiles;
     @FindBy(xpath = "//*[text()='Ben Admin Administered']") private WebElement benAdminButton;
     @FindBy(xpath = "//label[@for='groupType']/following-sibling::div[1]") private WebElement benAdminDropdown;
-    @FindBy(xpath = "(//div[@class=' css-12efcmn'])[2]") private WebElement searchInput;
+    @FindBy(xpath = "//div[@data-cy='benAdminId']//input[@role='combobox']") private WebElement searchInput;
     @FindBy(xpath = "//*[text()='Automation PDBA (Post Enrollment Included)']") private WebElement automationOption;
     @FindBy(xpath = "//div[text()='Next']") private WebElement next;
     @FindBy(xpath = "//div[text()='Submit']") private WebElement submit;
@@ -111,6 +111,7 @@ public class BillingPage implements AbstractPage {
     @FindBy(xpath = "//div[text()='New York']") private WebElement newYork;
     @FindBy(xpath = "//div[@aria-label='Credit Available']//div[contains(text(), 'Credit Available')]") private WebElement creditAvailableLabel;
     @FindBy(xpath = "//div[@aria-label='Credit Available']//div[@data-for='dg-tooltip']") private WebElement creditAvailableValue;
+    @FindBy(xpath = "//div[@aria-label='Group Type']//div[contains(text(), 'Ben') or contains(text(), 'IAIC')]") private WebElement groupTypeValue;
 
     public BillingPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -173,6 +174,7 @@ public class BillingPage implements AbstractPage {
         WEB_ELEMENT_MAPPING.put("New York", newYork);
         WEB_ELEMENT_MAPPING.put("CREDIT AVAILABLE LABEL", creditAvailableLabel);
         WEB_ELEMENT_MAPPING.put("CREDIT AVAILABLE VALUE", creditAvailableValue);
+        WEB_ELEMENT_MAPPING.put("GROUP TYPE VALUE", groupTypeValue);
 
     }
 

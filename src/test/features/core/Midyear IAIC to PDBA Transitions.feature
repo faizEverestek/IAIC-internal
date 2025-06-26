@@ -15,12 +15,22 @@ Feature: Midyear IAIC to PDBA Transitions: Behavior for each employee record
     And "Ben Admin Dropdown" is clicked
     And "Ben Admin Administered" is clicked
     And "Search Input" is clicked
+    And "auto" is entered in "Search Input"
+    And wait for 3 seconds "for the Automation PDBA Option to be visible"
     And "Automation PDBA Option" is clicked
     And "Next" is clicked
     And "Next" is clicked
     And "Next" is clicked
     And "Next" is clicked
     And "Submit" is clicked
+    And wait for 3 seconds "to redirect to next page"
+    And "Group Link" is clicked
+    And Verify "Filter Button" is clicked
+    And "Search Group Name" is search for group
+    And wait for 9 seconds "for loading group dashboard"
+    Then following elements with respective text values are present:
+      | NAME             | VALUE            |
+      | GROUP TYPE VALUE | Ben Administered |
 
   #@Regression
   Scenario: Verify only unirate groups can be transitioned to PDBA group or system will throw error
