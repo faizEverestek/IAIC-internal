@@ -275,15 +275,17 @@ public class GroupsDashboardPage implements AbstractPage {
     @FindBy(xpath = "//input[@aria-label='Pet Age at Effective Date (in years)']") private WebElement petAge;
     @FindBy(xpath = "//*[text()='2']") private WebElement selectPetAge;
     @FindBy(xpath = "//input[@aria-label='Pet Weight at Adulthood (in lbs)']") private WebElement petWeight;
-    @FindBy(xpath = "//div[text()='Add Pet']") private WebElement addPetBtn;
+    @FindBy(xpath = "//button[@aria-label='Add Pet']") private WebElement addPetBtn;
     @FindBy(xpath = "//input[@aria-label='Pet Breed']") private WebElement petBreed;
     @FindBy(xpath = "//*[text()='Mixed Breed']") private WebElement selectPetBreed;
+    @FindBy(xpath = "//*[text()='Pet Acquisition Date']") private WebElement petAcquisitionDate;
     @FindBy(xpath = "//h3[text()='Silver']/following-sibling::div") private WebElement selectPetPlan;
     @FindBy(xpath = "//label[@for='reasonType']/following-sibling::div") private WebElement reasonForLateEnrollment;
     @FindBy(xpath = "//*[text()='Marriage']") private WebElement selectReasonForLateEnrollment;
     @FindBy(xpath = "//input[@id='agreeMpi']") private WebElement agreeMPI;
     @FindBy(xpath = "//input[@id='agreeFW']") private WebElement agreeFW;
     @FindBy(xpath = "//input[@id='agreeAA']") private WebElement agreeAA;
+    @FindBy(xpath = "//input[@id='premiumChanges']") private WebElement premiumChanges;
     @FindBy(xpath = "//input[@id='agreeEC']") private WebElement agreeEC;
     @FindBy(xpath = "//div[text()='Run Group Enroll Job']") private WebElement runEnrollJobBtn;
     @FindBy(xpath = "//div[text()='Set Date']") private WebElement setDateBtn;
@@ -409,13 +411,14 @@ public class GroupsDashboardPage implements AbstractPage {
     @FindBy(xpath = "(//*[text()='Remove Pet'])[2]") private WebElement removePetbtn;
     @FindBy(xpath = "//label[@for='paymentType']/following-sibling::div") private WebElement paymentType;
     @FindBy(xpath = "//div[text()='Billing Reports']") private WebElement billingReports;
+    @FindBy(xpath = "//div[text()='ReGenerate Payroll Deduction Report']") private WebElement regeneratePaydeductionReports;
     @FindBy(xpath = "//div[text()='REMITTANCE']") private WebElement remittanceType;
     @FindBy(xpath = "//button[@aria-label='Reopen']") private WebElement reopenBtn;
     @FindBy(xpath = "//label[@for='reopenReasonType']/following-sibling::div") private WebElement reopenRequestType;
     @FindBy(xpath = "//*[text()='Pet Is Eligible']") private WebElement selectReopenRequestType;
     @FindBy(xpath = "//div[text()='Request Status']/following-sibling::div") private WebElement requestStatus;
     @FindBy(xpath = "(//button[contains(@class,'next-button')])[2]") private WebElement calendarMonthChange2;
-    @FindBy(xpath = "(//abbr[text()='1'])[3]") private WebElement selectTerminationDate;
+    @FindBy(xpath = "(//button[@aria-label='Toggle calendar'])[2]") private WebElement selectTerminationDate;
     @FindBy(xpath = "//tr[2]/td[8]/div") private WebElement payrollDate;
     @FindBy(xpath = "//tr[2]/td[7]/div") private WebElement actualPayrollDate;
     @FindBy(xpath = "//button[@class='react-calendar__navigation__label']/span") private WebElement calendarMonthTxt;
@@ -572,6 +575,7 @@ public class GroupsDashboardPage implements AbstractPage {
     @FindBy(xpath = "//*[text()='Update Coverage']") private WebElement component7;
     @FindBy(xpath = "//*[text()='Renew Policy']") private WebElement component8;
     @FindBy(xpath = "//button[@type='button']//div[contains(text(),'COMPLETE YOUR')]") private WebElement component9;
+    @FindBy(xpath = "//*[text()='Opt out of Renewal']") private WebElement optoutcomponent;
 
 
 
@@ -848,12 +852,14 @@ public class GroupsDashboardPage implements AbstractPage {
         WEB_ELEMENT_MAPPING.put("Add Pet Button", addPetBtn);
         WEB_ELEMENT_MAPPING.put("Pet Breed", petBreed);
         WEB_ELEMENT_MAPPING.put("Select Pet Breed", selectPetBreed);
+        WEB_ELEMENT_MAPPING.put("Pet Acquisition Date", petAcquisitionDate);
         WEB_ELEMENT_MAPPING.put("Select Pet Plan", selectPetPlan);
         WEB_ELEMENT_MAPPING.put("Reason for Late Enrollment", reasonForLateEnrollment);
         WEB_ELEMENT_MAPPING.put("Select Reason for Late Enrollment", selectReasonForLateEnrollment);
         WEB_ELEMENT_MAPPING.put("Agree MPI", agreeMPI);
         WEB_ELEMENT_MAPPING.put("Agree FW", agreeFW);
         WEB_ELEMENT_MAPPING.put("Agree AA", agreeAA);
+        WEB_ELEMENT_MAPPING.put("Premium Changes", premiumChanges);
         WEB_ELEMENT_MAPPING.put("Agree EC", agreeEC);
         WEB_ELEMENT_MAPPING.put("Run Group Enroll Job Button", runEnrollJobBtn);
         WEB_ELEMENT_MAPPING.put("Set Date Button", setDateBtn);
@@ -991,6 +997,7 @@ public class GroupsDashboardPage implements AbstractPage {
         WEB_ELEMENT_MAPPING.put("Remove Pet Button", removePetbtn);
         WEB_ELEMENT_MAPPING.put("Payment Type", paymentType);
         WEB_ELEMENT_MAPPING.put("Billing Reports", billingReports);
+        WEB_ELEMENT_MAPPING.put("ReGenerate Payroll Deduction Report", regeneratePaydeductionReports);
         WEB_ELEMENT_MAPPING.put("Remittance Type", remittanceType);
         WEB_ELEMENT_MAPPING.put("Reopen Button", reopenBtn);
         WEB_ELEMENT_MAPPING.put("Reopen Request Type", reopenRequestType);
@@ -1113,6 +1120,7 @@ public class GroupsDashboardPage implements AbstractPage {
         WEB_ELEMENT_MAPPING.put("Update Coverage", component7);
         WEB_ELEMENT_MAPPING.put("Renew Policy", component8);
         WEB_ELEMENT_MAPPING.put("COMPLETE YOUR PET REGISTRATION NOW!", component9);
+        WEB_ELEMENT_MAPPING.put("Opt out of Renewal", optoutcomponent);
     }
 
     @Override

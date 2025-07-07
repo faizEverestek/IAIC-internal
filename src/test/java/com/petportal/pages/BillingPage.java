@@ -70,6 +70,7 @@ public class BillingPage implements AbstractPage {
     @FindBy(xpath = "//input[@aria-label='Remittance Method Type']") private WebElement remittanceMethodType;
     @FindBy(xpath = "//*[text()='Auto Remittance']") private WebElement autoRemittance;
     @FindBy(xpath = "//*[text()='Upload File']") private WebElement uploadRemittanceFile;
+    @FindBy(xpath = "//div[@class='Snackbar_snackbar__text__1Hx2a']") private WebElement errorMessage;
     @FindBy(xpath = "//button[@type='submit']") private WebElement done;
     @FindBy(xpath = "//button[@aria-label='Confirm']") private WebElement confirm;
     @FindBy(xpath = "//a[@aria-label='Accounts Dashboard']") private WebElement accountsDashboard;
@@ -89,7 +90,7 @@ public class BillingPage implements AbstractPage {
     @FindBy(xpath = "//a[@aria-label='View Template Files']") private WebElement viewTemplateFiles;
     @FindBy(xpath = "//*[text()='Ben Admin Administered']") private WebElement benAdminButton;
     @FindBy(xpath = "//label[@for='groupType']/following-sibling::div[1]") private WebElement benAdminDropdown;
-    @FindBy(xpath = "(//div[@class=' css-12efcmn'])[2]") private WebElement searchInput;
+    @FindBy(xpath = "//div[@data-cy='benAdminId']//input[@role='combobox']") private WebElement searchInput;
     @FindBy(xpath = "//*[text()='Automation PDBA (Post Enrollment Included)']") private WebElement automationOption;
     @FindBy(xpath = "//div[text()='Next']") private WebElement next;
     @FindBy(xpath = "//div[text()='Submit']") private WebElement submit;
@@ -109,6 +110,12 @@ public class BillingPage implements AbstractPage {
     @FindBy(xpath = "(//button[@type='button'])[1]") private WebElement sendVerificationCode;
     @FindBy(xpath = "//div[text()='OK']") private WebElement ok;
     @FindBy(xpath = "//div[text()='New York']") private WebElement newYork;
+    @FindBy(xpath = "//div[normalize-space(text())='Credit Available']/following::div[contains(@class,'Truncate__EllipsisBox')][1]") private WebElement creditAvailable ;
+    @FindBy(xpath = "//button[@aria-label='Show more details']") private WebElement showMoreDetails;
+    @FindBy(xpath = "//table//tbody/tr[1]/td[6]") private WebElement pendingRetroCredit;
+    @FindBy(xpath = "//div[@aria-label='Credit Available']//div[contains(text(), 'Credit Available')]") private WebElement creditAvailableLabel;
+    @FindBy(xpath = "//div[@aria-label='Credit Available']//div[@data-for='dg-tooltip']") private WebElement creditAvailableValue;
+    @FindBy(xpath = "//div[@aria-label='Group Type']//div[contains(text(), 'Ben') or contains(text(), 'IAIC')]") private WebElement groupTypeValue;
 
     public BillingPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -124,6 +131,7 @@ public class BillingPage implements AbstractPage {
         WEB_ELEMENT_MAPPING.put("Remittance Method Type Input", remittanceMethodType);
         WEB_ELEMENT_MAPPING.put("Auto Remittance Option", autoRemittance);
         WEB_ELEMENT_MAPPING.put("Upload Remittance File Option", uploadRemittanceFile);
+        WEB_ELEMENT_MAPPING.put("Error Message", errorMessage);
         WEB_ELEMENT_MAPPING.put("Done Button", done);
         WEB_ELEMENT_MAPPING.put("Confirm", confirm);
         WEB_ELEMENT_MAPPING.put("Accounts Dashboard", accountsDashboard);
@@ -132,6 +140,8 @@ public class BillingPage implements AbstractPage {
         WEB_ELEMENT_MAPPING.put("Year Input", yearInput);
         WEB_ELEMENT_MAPPING.put("Month Input", monthInput);
         WEB_ELEMENT_MAPPING.put("Add Button", add);
+        WEB_ELEMENT_MAPPING.put("Control Amount", controlAmount);
+        WEB_ELEMENT_MAPPING.put("Submit Confirmations", submissionConfirmBtn);
         WEB_ELEMENT_MAPPING.put("Group Link", groupLink);
         WEB_ELEMENT_MAPPING.put("View", view);
         WEB_ELEMENT_MAPPING.put("Edit", edit);
@@ -169,7 +179,13 @@ public class BillingPage implements AbstractPage {
         WEB_ELEMENT_MAPPING.put("Send Verification Code", sendVerificationCode);
         WEB_ELEMENT_MAPPING.put("OK", ok);
         WEB_ELEMENT_MAPPING.put("New York", newYork);
-
+        WEB_ELEMENT_MAPPING.put("Credit Available", creditAvailable);
+        WEB_ELEMENT_MAPPING.put("Show more details", showMoreDetails);
+        WEB_ELEMENT_MAPPING.put("Pending Retro Credit", pendingRetroCredit);
+        WEB_ELEMENT_MAPPING.put("CREDIT AVAILABLE LABEL", creditAvailableLabel);
+        WEB_ELEMENT_MAPPING.put("CREDIT AVAILABLE VALUE", creditAvailableValue);
+        WEB_ELEMENT_MAPPING.put("GROUP TYPE VALUE", groupTypeValue);
+        
     }
 
     @Override

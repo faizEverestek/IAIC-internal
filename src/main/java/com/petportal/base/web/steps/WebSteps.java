@@ -6,12 +6,16 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.petportal.base.web.EmailReader;
 import com.petportal.base.web.utilities.*;
 import io.cucumber.java.*;
 import io.cucumber.java.en.And;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -37,6 +41,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.mail.MessagingException;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -101,6 +106,8 @@ public class WebSteps {
     private Random random = new Random();
 
     private String getGroupNumber;
+    private String getEmployeeId1;
+    private String getEmployeeId2;
 
     /**
      * The web page.
@@ -251,7 +258,7 @@ public class WebSteps {
         }
     }
 
-    @When("Enter the email address of the newly added employee in the {string}")
+   /* @When("Enter the email address of the newly added employee in the {string}")
     public void enterText(String fieldName) {
         WebElement textField = currentPage.elements().get(fieldName);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -268,7 +275,7 @@ public class WebSteps {
         }
         textField.sendKeys(email);
     }
-
+ */
     /**
      * This method is used to deselect the radio button and check box.
      *
@@ -1068,6 +1075,12 @@ public class WebSteps {
         }else{
             AddEmployeeUS AddEmployeeUS = new AddEmployeeUS(driver);
             AddEmployeeUS.normalAddEmployee(enrollment);
+            if(getEmployeeId1 == null){
+                getEmployeeId1 = AddEmployeeUS.employeeId;
+                getEmployeeId2 = AddEmployeeUS.employeeId;
+             }else{
+                getEmployeeId2 = AddEmployeeUS.employeeId;
+            }
         }
     }
 
@@ -1217,5 +1230,77 @@ public class WebSteps {
         testUtils.scrollUptoElementDisplay(element2);
         element2.sendKeys((properties.getProperty("SSO_PASSWORD")));
         element3.click();
+    }
+
+    @And("Verify {string} file is updated for {string}")
+    public void verifyFileIsUpdated(String filePath,String file) throws Exception {
+        List<String> requiredColumns = List.of("GroupNbr", "Emp_Number");
+        List<List<String>> allRowData;
+
+        int totalRows;
+            try (CSVParser parser = new CSVParser(new FileReader(filePath), CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
+            totalRows = parser.getRecords().size();
+        }
+
+        if (totalRows == 3){
+            // Sample data: Each inner list = values for one row
+            allRowData = List.of(
+                List.of(getGroupNumber, getEmployeeId1),
+                List.of(getGroupNumber, getEmployeeId2),
+                List.of(getGroupNumber, "Adjustment") // Last row
+            );          
+        }else{
+            allRowData = List.of(
+                List.of(getGroupNumber, getEmployeeId1),
+                List.of(getGroupNumber, "Adjustment") // Last row
+            ); 
+        }    
+        
+        Supplier<String> smartRowAwareSupplier = new Supplier<>() {
+            private int rowIndex = 0;
+            private Iterator<String> rowIterator = allRowData.get(rowIndex).iterator();
+
+            @Override
+            public String get() {
+                if (!rowIterator.hasNext()) {
+                    rowIndex++;
+                    if (rowIndex >= totalRows) {
+                        throw new NoSuchElementException("No more rows");
+                    }
+                    rowIterator = allRowData.get(rowIndex).iterator();
+                }
+                return rowIterator.next();
+            }
+        };
+
+        // Then pass smartRowAwareSupplier to your CSV update method like:
+        modifyFile(filePath, file, requiredColumns, smartRowAwareSupplier);
+
+    }
+
+    /**
+     * Verifies that UI elements contain the expected text values defined in the provided DataTable.
+     *
+     * <p>The DataTable must have two columns:
+     * <ul>
+     *   <li><b>NAME</b> – element identifier</li>
+     *   <li><b>VALUE</b> – expected text</li>
+     * </ul>
+     *
+     * @param dataTable a table mapping element names to their expected text values
+     * @throws AssertionError if any element's actual text does not match the expected value
+     */
+    @Then("following elements with respective text values are present:")
+    public void verifyTextContentAtMultipleElements(DataTable dataTable) {
+        List<Map<String, String>> expectedMap = dataTable.asMaps();
+        for (Map<String, String> expectedRow : expectedMap) {
+            WebElement textField = currentPage.elements().get(expectedRow.get("NAME"));
+            testUtils.waitUntilElementToBeVisible(textField);
+            testUtils.scrollUptoElementDisplay(textField);
+            String actualValue = textField.getText().replaceAll("\\s+", " ").trim();
+            String expectedValue = expectedRow.get("VALUE");
+            Assert.assertEquals(actualValue, expectedValue,
+                    "The value of \"" + expectedRow.get("NAME") + "\" did not match.");
+        }
     }
 }

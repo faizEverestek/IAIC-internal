@@ -14,14 +14,12 @@ public class AddEmployeeUS {
 
     private WebDriver driver = null;
     private final WebDriverWait wait;
+    public String employeeId;
 
     public AddEmployeeUS(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
-
-    static String firstName = generateRandomString(9);
-    public static String email = "megha.dhotarkar"+"+"+firstName+"@everestek.com";
 
     public void normalAddEmployee(String enrollment) throws Exception {
         addNewEmployee();
@@ -33,10 +31,14 @@ public class AddEmployeeUS {
     }
 
     private void addNewEmployee() {
+        String firstName = generateRandomString(9);
+        String email = "megha.dhotarkar"+"+"+firstName+"@everestek.com";
+        employeeId = generateRandomInteger(9);
+        
         clickElement(By.xpath("//button[@aria-label='Add Employee']"));
         clickElement(By.xpath("//input[@aria-label='Employee Census Type']"));
         clickElement(By.xpath("//*[text()='Manual Input']"));
-        sendKeysToElement(By.xpath("//input[@id='empId']"), generateRandomInteger(9));
+        sendKeysToElement(By.xpath("//input[@id='empId']"), employeeId);
         sendKeysToElement(By.xpath("//input[@id='firstName']"), firstName);
         sendKeysToElement(By.xpath("//input[@id='lastName']"), "kumar");
         sendKeysToElement(By.xpath("//input[@aria-label='Address Line 1']"), "address1");

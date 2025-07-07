@@ -23,7 +23,7 @@ Background: User is logged in
     And "New York" is clicked
     And "10011" is entered in "SSO Zipcode"
     And "SSO Acceptance" is clicked
-    And "Done Button" is clicked
+    And "Submit" is clicked
 
   @Regression-QA
   Scenario: Verify workday existing employee login

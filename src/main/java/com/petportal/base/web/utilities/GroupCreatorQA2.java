@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 
@@ -279,7 +281,8 @@ public class GroupCreatorQA2 extends CSVModifier {
         clickElement(By.xpath("(//button[contains(@class,'prev-button')])[2]"));
         clickElement(By.xpath("((//div[contains(@class,'viewContainer')])//div[contains(@class,'month-view__days')]/button[20])[2]"));
         clickElement(By.xpath("//label[@for='enrollmentToDate']/..//button[@aria-label='Toggle calendar']"));
-        clickElement(By.xpath("((//div[contains(@class,'month-view__days')])//button[contains(@class,'tile--now')]/following-sibling::button[2])[1]"));
+        clickElement(By.xpath("(//button[.//abbr[@aria-label='" + selectDate() + "']])[2]"));
+        //clickElement(By.xpath("((//div[contains(@class,'month-view__days')])//button[contains(@class,'tile--now')]/following-sibling::button[2])[1]"));
         sendKeysToElement(By.xpath("//input[@aria-label='Employer Contribution in %']"), "50");
         sendKeysToElement(By.xpath("(//input[contains(@id,'employerContribution')])[2]"), "50");
         clickElement(By.xpath("//div[text()='Next']"));
@@ -367,7 +370,8 @@ public class GroupCreatorQA2 extends CSVModifier {
         clickElement(By.xpath("(//button[contains(@class,'prev-button')])[1]"));
         clickElement(By.xpath("((//div[contains(@class,'viewContainer')])//div[contains(@class,'month-view__days')]/button[20])[1]"));
         clickElement(By.xpath("//label[@for='enrollmentToDate']/..//button[@aria-label='Toggle calendar']"));
-        clickElement(By.xpath("((//div[contains(@class,'month-view__days')])//button[contains(@class,'tile--now')]/following-sibling::button[1])[1]"));
+        clickElement(By.xpath("(//button[.//abbr[@aria-label='" + selectDate() + "']])[2]"));
+        //clickElement(By.xpath("((//div[contains(@class,'month-view__days')])//button[contains(@class,'tile--now')]/following-sibling::button[1])[1]"));
         clickElement(By.xpath("//div[text()='Next']"));
         Thread.sleep(5000);
         sendKeysToElement(By.xpath("(//input[@aria-label='Month'])[1]"), "01");
@@ -458,5 +462,13 @@ public class GroupCreatorQA2 extends CSVModifier {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String selectDate(){
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrow = today.plusDays(1);
+        LocalDate resultDate = tomorrow.getMonth() != today.getMonth() ? today : tomorrow;
+        String formattedDate = resultDate.format(DateTimeFormatter.ofPattern("MMMM d, yyyy")); 
+        return formattedDate;
     }
 }
