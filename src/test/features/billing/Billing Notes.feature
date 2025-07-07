@@ -20,8 +20,11 @@ Feature: Add capability to track/submit/view billing notes
   @Regression
   Scenario: Verify IAIC admin/Super admin can create/submit billing notes for a group.
     And "Notes Selection" is clicked
+    And "Total number of notes" is stored in the test data with key "totalNumberOfNotes"
     And "Delete Note" is clicked
     Then "Yes Button" is clicked
+    And wait for 2 seconds "for note to be deleted"
+    And key "totalNumberOfNotes" is read from test data and "Total number of notes" is verified after successful deletion
 
   #@Regression 
   Scenario: Verify IAIC admin/Super admin can view consolidated billing notes submitted for each bill in one place

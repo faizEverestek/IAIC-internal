@@ -1244,4 +1244,43 @@ public class WebSteps {
                     "The value of \"" + expectedRow.get("NAME") + "\" did not match.");
         }
     }
+
+    /**
+     * Stores the total number of elements displayed in a UI element (e.g., "1–10 of 35")
+     * into the test data map using a specified key.
+     *
+     * @param fieldName   the name of the UI element containing the count text
+     * @param testDataKey the key to store the extracted total number in the test data map
+     */
+    @And("{string} is stored in the test data with key {string}")
+    public void storeTotalNumberOfElements(String fieldName, String testDataKey) {
+        WebElement countDiv = currentPage.elements().get(fieldName);
+        String text = countDiv.getText(); // e.g. "1–10 of 35"
+        String totalStr = text.split("of")[1].trim(); // "35"
+        testData.put(testDataKey, totalStr);
+        System.out.println("Total before delete: " + testData.get(testDataKey));
+    }
+
+    /**
+     * Verifies that the total number of elements after deletion is exactly one less
+     * than the previously stored value in the test data map.
+     *
+     * @param testDataKey the key used to retrieve the stored total number before deletion
+     * @param fieldName   the name of the UI element containing the updated count text
+     */
+    @Then("key {string} is read from test data and {string} is verified after successful deletion")
+    public void verifyTotalIsOneLess(String testDataKey, String fieldName) {
+        WebElement countDiv = currentPage.elements().get(fieldName);
+        String text = countDiv.getText(); // e.g. "1–10 of 34"
+        String totalNotesAfterDeletionText = text.split("of")[1].trim();
+
+        int totalNotesAfterDeletion = Integer.parseInt(totalNotesAfterDeletionText);
+        int totalNotesBeforeDeletion = Integer.parseInt(testData.get(testDataKey));
+
+        System.out.println("Total after delete: " + totalNotesAfterDeletion);
+
+        Assert.assertEquals(totalNotesAfterDeletion, totalNotesBeforeDeletion - 1,
+                "Total notes after deletion should be one less than total notes before deletion");
+    }
+
 }

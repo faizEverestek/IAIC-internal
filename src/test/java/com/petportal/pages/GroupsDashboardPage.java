@@ -572,10 +572,7 @@ public class GroupsDashboardPage implements AbstractPage {
     @FindBy(xpath = "//*[text()='Update Coverage']") private WebElement component7;
     @FindBy(xpath = "//*[text()='Renew Policy']") private WebElement component8;
     @FindBy(xpath = "//button[@type='button']//div[contains(text(),'COMPLETE YOUR')]") private WebElement component9;
-
-
-
-
+    @FindBy(xpath = "//button[@aria-label='Previous Page']//preceding-sibling::div") private WebElement totalNumberOfNotes;
 
 
     public GroupsDashboardPage(WebDriver driver) {
@@ -1113,6 +1110,8 @@ public class GroupsDashboardPage implements AbstractPage {
         WEB_ELEMENT_MAPPING.put("Update Coverage", component7);
         WEB_ELEMENT_MAPPING.put("Renew Policy", component8);
         WEB_ELEMENT_MAPPING.put("COMPLETE YOUR PET REGISTRATION NOW!", component9);
+        WEB_ELEMENT_MAPPING.put("Total number of notes", totalNumberOfNotes);
+
     }
 
     @Override
