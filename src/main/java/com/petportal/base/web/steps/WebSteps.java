@@ -370,6 +370,7 @@ public class WebSteps {
         textField.clear();
         int randomNumber = random.nextInt(9000) + 1000;
         String text = name + randomNumber;
+        testData.put(fieldName, text);
         textField.sendKeys(text);
     }
 

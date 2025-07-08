@@ -36,7 +36,11 @@ Feature: Producer
     And "1234567890" is entered in "Phone Number"
     And random email "megha.dhotarkar@everestek.com" is entered in "Contact Email"
     And "Submit Button" is clicked
-    Then "No Button" is clicked
+    And "No Button" is clicked
+    And "Filter Button" is clicked
+    And "Producer Name" is read by test data key "Producer Name" and entered in "Producer Name"
+    And wait for 3 seconds "for elements to be visible"
+    Then "Producer Name Text" is read from the test data using the key "Producer Name" and verified with the text at element "Producer Name Text"
 
   @Regression-QA2
   Scenario: Verify  IAIC admin can add producer to portal
@@ -68,4 +72,8 @@ Feature: Producer
     And "1234567890" is entered in "Phone Number"
     And random email "megha.dhotarkar@everestek.com" is entered in "Contact Email"
     And "Submit Button" is clicked
-    Then "No Button" is clicked
+    And "No Button" is clicked
+    And "Filter Button" is clicked
+    And "Producer Name" is read by test data key "Producer Name" and entered in "Producer Name"
+    And wait for 3 seconds "for elements to be visible"
+    Then "Producer Name Text" is read from the test data using the key "Producer Name" and verified with the text at element "Producer Name Text"
